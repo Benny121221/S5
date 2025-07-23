@@ -1,0 +1,85 @@
+```html
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点名网页</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #status {
+            font-size: 20px;
+            margin: 20px;
+        }
+        #names {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>点名系统</h1>
+    <div id="status">已点: 0 未点: 30</div>
+    <div id="names"></div>
+
+    <script>
+        const names = [
+            "1", "2", "3", "4", "5",
+            "6", "7", "8", "9", "10",
+            "11", "12", "13", "14", "15",
+            "16", "17", "18", "19", "20",
+            "21", "22", "23", "24", "25",
+            "26", "27", "28", "29", "30"
+        ];
+
+        let called = 0;
+        let remaining = names.length;
+        const namesContainer = document.getElementById('names');
+        const status = document.getElementById('status');
+
+        function updateStatus() {
+            status.textContent = `已点: ${called} 未点: ${remaining}`;
+        }
+
+        function reset() {
+            called = 0;
+            remaining = names.length;
+            const buttons = namesContainer.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.style.display = 'inline-block';
+            });
+            updateStatus();
+        }
+
+        names.forEach(name => {
+            const button = document.createElement('button');
+            button.textContent = name;
+            button.onclick = function() {
+                this.style.display = 'none';
+                called++;
+                remaining--;
+                updateStatus();
+                if (remaining === 0) {
+                    setTimeout(reset, 1000); // 延迟1秒重置，便于查看完成状态
+                }
+            };
+            namesContainer.appendChild(button);
+        });
+
+        updateStatus();
+    </script>
+</body>
+</html>
+```
